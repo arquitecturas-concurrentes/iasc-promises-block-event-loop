@@ -54,5 +54,32 @@ app.get('/cpu_intensive', async function computeIntensive(req, res) {
   log('[cpu_intensive] - Response about to be returned to the user');
   res.send(hash.digest('hex') + '\n');
 });
+app.get('/cpu_intensive_partition', async function computeIntensive(req, res) {
+  log('computing Itensive cpu load....');
+  const hash = crypto.createHash('sha256');
+
+  function updatePartitioned(hash, threshold, callback) {
+    var i = 0;
+
+    function help(i, cb) {
+     if (i == threshold) {
+       cb(hash);
+       return;
+     } 
+
+     hash.update(getRandomString());
+     setImmediate(help.bind(null, i+1, cb));
+    }
+    
+    help(1, function(hash) {
+      callback(hash);
+    })
+  }
+
+  updatePartitioned(hash, 10e5, function(result) {
+    log('[cpu_intensive] - Response about to be returned to the user');
+    res.send(hash.digest('hex') + '\n');
+  });
+});
 
 let server = app.listen(PORT, () => log('server listening on :' + PORT));

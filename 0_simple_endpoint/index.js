@@ -29,6 +29,11 @@ app.get('/io', function computeIO(req, res) {
 });
 app.get('/cpu_intensive', function computeIntensive(req, res) {
   log('computing synchronously... (?)');
+  /*
+  CPU-intensive
+  Crypto: crypto.pbkdf2(), crypto.scrypt(), crypto.randomBytes(), crypto.randomFill(), crypto.generateKeyPair().
+  Zlib: All zlib APIs except those that are explicitly synchronous use libuv's threadpool.
+  */
   const hash = crypto.createHash('sha256');
   for (let i=0; i < 10e6; i++) {
     hash.update(getRandomString())
