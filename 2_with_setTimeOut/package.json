@@ -11,7 +11,7 @@
   "dependencies": {
     "bindings": "^1.5.0",
     "deasync": "^0.1.15",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "sleep": "^6.1.0"
   }
 }
